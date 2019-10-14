@@ -1,0 +1,24 @@
+{
+    "Switch1": {
+        "portinfo": {
+            "FastEthernet 1": {
+                "description": "Port1",
+                "switchport access vlan": "2",
+                "switchport mode": "access"
+            },
+            "FastEthernet 2": {
+                "description": "Port2",
+                "switchport mode": "trunk",
+                "switchport trunk allow vlan": "2"
+            },
+            "FastEthernet 3": {
+                "switchport access vlan": "3",
+                "switchport mode": "access"
+            },
+            "FastEthernet 4": {
+                "switchport access vlan": "3"
+            }
+        }
+    }
+}
+

@@ -1,0 +1,70 @@
+Configuration for RTR-d:
+
+interface Vlan34
+ ip address 10.119.112.2 255.255.255.0
+ no ip redirects
+ no ip proxy-arp
+ no ip unreachables
+ ip vrf forwarding ipspace
+ description vlan_34
+ standby 112 ip 10.119.112.254
+ standby 112 priority 140
+ standby 112 preempt
+ standby 112 version 2
+
+interface Vlan35
+ ip address 10.120.113.2 255.255.255.0
+ no ip redirects
+ no ip proxy-arp
+ no ip unreachables
+ ip vrf forwarding ipspace
+ description vlan_35
+ ip helper-address 1.2.3.4
+ ip helper-address 1.2.3.5
+ standby 113 ip 10.120.113.254
+ standby 113 priority 140
+ standby 113 preempt
+ standby 113 version 2
+
+interface Vlan68
+ ip address 10.123.116.2 255.255.255.0
+ no ip redirects
+ no ip proxy-arp
+ no ip unreachables
+ ip vrf forwarding ipspace
+ description vlan_68
+ ip helper-address 1.2.3.4
+ ip helper-address 1.2.3.5
+ standby 116 ip 10.123.116.254
+ standby 116 priority 140
+ standby 116 preempt
+ standby 116 version 2
+
+interface Vlan69
+ ip address 10.124.117.2 255.255.255.0
+ no ip redirects
+ no ip proxy-arp
+ no ip unreachables
+ ip vrf forwarding ipspace
+ description vlan_69
+ ip helper-address 1.2.3.4
+ ip helper-address 1.2.3.5
+ standby 117 ip 10.124.117.254
+ standby 117 priority 140
+ standby 117 preempt
+ standby 117 version 2
+
+interface Vlan70
+ ip address 10.125.118.2 255.255.255.0
+ no ip redirects
+ no ip proxy-arp
+ no ip unreachables
+ ip vrf forwarding ipspace
+ description vlan_70
+ ip helper-address 1.2.3.4
+ ip helper-address 1.2.3.5
+ standby 118 ip 10.125.118.254
+ standby 118 priority 140
+ standby 118 preempt
+ standby 118 version 2
+

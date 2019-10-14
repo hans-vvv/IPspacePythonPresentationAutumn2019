@@ -1,0 +1,36 @@
+interface {{if_index}}
+{% if (ipv4_address and ipv4_address_mask) %}
+ ip address {{ipv4_address}} {{ipv4_address_mask}}
+ no ip redirects
+ no ip proxy-arp
+ no ip unreachables
+{% endif %}
+{% if ip_vrf %}
+ ip vrf forwarding {{ip_vrf}}
+{% endif %}
+{% if if_description %}
+ description {{if_description}}
+{% endif %}
+{% if ip_helpers %}
+{% for ip_helper in ip_helpers %}
+ ip helper-address {{ip_helper}}
+{% endfor %}
+{% endif %}
+{% if (hsrp_gateway_ip and hsrp_grp_id) %}
+ standby {{hsrp_grp_id}} ip {{hsrp_gateway_ip}}
+{% endif %}
+{% if (hsrp_active_router and hsrp_grp_id) %}
+ standby {{hsrp_grp_id}} priority 150
+{% else %}
+ standby {{hsrp_grp_id}} priority 140
+{% endif %}
+{% if (hsrp_grp_id and hsrp_preempt) %}
+ standby {{hsrp_grp_id}} preempt
+{% endif %}
+{% if hsrp_grp_id and hsrp_version2 %}
+ standby {{hsrp_grp_id}} version 2
+{% endif %}
+{% if (hsrp_grp_id and hsrp_key_chain_name)  %}
+ standby {{hsrp_grp_id}} authentication md5 key-chain {{hsrp_key_chain_name}}
+{% endif %}
+

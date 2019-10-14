@@ -1,0 +1,20 @@
+hostname switch1
+!
+interface FastEthernet1/1
+ description Server1
+!
+interface FastEthernet1/2
+ description Server2
+!
+interface FastEthernet1/3
+ description Server3
+!
+interface FastEthernet1/4
+ description Server4
+!
+interface FastEthernet1/47
+ description D2_1/1
+!
+interface FastEthernet1/48
+ description D1_1/1
+!

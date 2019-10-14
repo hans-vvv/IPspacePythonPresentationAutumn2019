@@ -1,0 +1,43 @@
+hostname Switch2
+!
+vlan 2 
+ name two
+!
+vlan 3
+ name three
+!
+vlan 5
+ name five
+!
+vlan 6
+ name six
+!
+vlan 7
+ name seven
+!
+vlan 8
+ name eight
+!
+vlan 11
+ name eleven
+!
+interface FastEthernet 1
+ description Port12
+ switchport mode access
+ switchport access vlan 5
+!
+interface FastEthernet 2
+ description Port2
+ switchport mode trunk
+ switchport trunk allow vlan 3,5,6
+ switchport trunk allow vlan add 7,8
+!
+interface FastEthernet 3
+ switchport mode access
+ switchport access vlan 2
+!
+interface FastEthernet 4
+ switchport mode access
+ switchport access vlan 11
+ 
+!
