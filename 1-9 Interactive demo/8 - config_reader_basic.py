@@ -21,33 +21,36 @@ def configreader(configfiles):
 
     for configfile in configfiles:
 
-        with open(configfile, 'r') as lines:
+        with open(configfile, 'r') as f:
 
-            portinfo = defaultdict(dict)
-            
-            for line in lines:
+            file = f.read()
 
-                if match(r'^interface (.*)', line):
-                    portindex = format(match.group(1))
 
-                elif match(r'hostname (.*)', line):
-                    hostname = format(match.group(1))
+        portinfo = defaultdict(dict)
+        
+        for line in file.splitlines():
 
-                elif match(r'^ switchport mode (\w+)', line):
-                    value = format(match.group(1))
-                    portinfo[portindex]['switchport mode'] = value
+            if match(r'^interface (.*)', line):
+                portindex = format(match.group(1))
 
-                elif match(r'^ description (.*)', line):
-                    value = format(match.group(1))
-                    portinfo[portindex]['description'] = value
+            elif match(r'hostname (.*)', line):
+                hostname = format(match.group(1))
 
-                elif match(r'^ switchport access vlan (\d+)', line):
-                    value = format(match.group(1))
-                    portinfo[portindex]['switchport access vlan'] = value
+            elif match(r'^ switchport mode (\w+)', line):
+                value = format(match.group(1))
+                portinfo[portindex]['switchport mode'] = value
 
-                elif match(r'^ switchport trunk allow vlan (\d+)', line):
-                    value = format(match.group(1))
-                    portinfo[portindex]['switchport trunk allow vlan'] = value
+            elif match(r'^ description (.*)', line):
+                value = format(match.group(1))
+                portinfo[portindex]['description'] = value
+
+            elif match(r'^ switchport access vlan (\d+)', line):
+                value = format(match.group(1))
+                portinfo[portindex]['switchport access vlan'] = value
+
+            elif match(r'^ switchport trunk allow vlan (\d+)', line):
+                value = format(match.group(1))
+                portinfo[portindex]['switchport trunk allow vlan'] = value
 
         switchinfo[hostname]['portinfo'] = portinfo
 

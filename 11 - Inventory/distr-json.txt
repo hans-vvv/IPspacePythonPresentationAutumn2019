@@ -29,32 +29,7 @@
         "vlaninfo": {}
     },
     "D2": {
-        "portinfo": {
-            "FastEthernet1/1": {
-                "description": "switch1_1/47"
-            },
-            "FastEthernet1/2": {
-                "description": "switch2_1/47"
-            },
-            "FastEthernet1/3": {
-                "description": "switch3_1/47"
-            },
-            "FastEthernet1/4": {
-                "description": "switch4_1/47"
-            },
-            "FastEthernet1/5": {
-                "description": "switch5_1/47"
-            },
-            "FastEthernet1/6": {
-                "description": "switch6_1/47"
-            },
-            "GigabitEthernet2/1": {
-                "description": "core1_2/4"
-            },
-            "GigabitEthernet3/1": {
-                "description": "core2_2/4"
-            }
-        },
+        "portinfo": {},
         "vlaninfo": {}
     }
 }

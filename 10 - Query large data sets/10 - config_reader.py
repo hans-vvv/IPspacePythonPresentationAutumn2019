@@ -39,79 +39,82 @@ def configreader(configfiles):
 
     for configfile in configfiles:
 
-        with open(configfile, 'r') as lines:
+        with open(configfile, 'r') as f:
 
-            portinfo = defaultdict(dict)
-            vlaninfo = defaultdict(dict)
-            snmpinfo = {}
-            
-            port_scanitem = False
-            
-            for line in lines:
+            file = f.read()
 
-                line = line.rstrip()
 
-                if match(r'hostname (.*)', line):
-                    hostname = format(match.group(1))
+        portinfo = defaultdict(dict)
+        vlaninfo = defaultdict(dict)
+        snmpinfo = {}
+        
+        port_scanitem = False
+        
+        for line in file.splitlines():
 
-                # start portinfo items
-                elif match(r'^interface (.*)', line):
-                    portindex = format(match.group(1))
-                    vlan_allow_list = []
-                    port_scanitem = True
-                                   
-                elif match(r'^ switchport mode (\w+)', line) and port_scanitem:
-                    value = format(match.group(1))
-                    portinfo[portindex]['switchport mode'] = value
+            line = line.rstrip()
 
-                elif match(r'^ description (.*)', line) and port_scanitem:
-                    value = format(match.group(1))
-                    portinfo[portindex]['description'] = value
+            if match(r'hostname (.*)', line):
+                hostname = format(match.group(1))
 
-                elif (match(r'^ switchport access vlan (\d+)', line)
-                        and port_scanitem):
-                    value = format(match.group(1))
-                    portinfo[portindex]['switchport access vlan'] = value
+            # start portinfo items
+            elif match(r'^interface (.*)', line):
+                portindex = format(match.group(1))
+                vlan_allow_list = []
+                port_scanitem = True
+                               
+            elif match(r'^ switchport mode (\w+)', line) and port_scanitem:
+                value = format(match.group(1))
+                portinfo[portindex]['switchport mode'] = value
 
-                elif (match(r'^ switchport trunk allow vlan.* ([0-9,-]+)', line)
-                        and port_scanitem):
-                    value = format(match.group(1))
-                    for raw_vlans in value.split(','):
-                        if '-' in raw_vlans:
-                            for vlan_id in splitrange(raw_vlans):
-                                vlan_allow_list.append(vlan_id)
-                        else:
-                            vlan_allow_list.append(raw_vlans)
-                    portinfo[portindex]['vlan_allow_list'] = vlan_allow_list
+            elif match(r'^ description (.*)', line) and port_scanitem:
+                value = format(match.group(1))
+                portinfo[portindex]['description'] = value
 
-                # start vlaninfo items
-                elif match(r'^vlan (\d)$', line):
-                    vlanindex = format(match.group(1))
-                    port_scanitem = True
-                    vlaninfo[vlanindex]['vlanindex'] = vlanindex
+            elif (match(r'^ switchport access vlan (\d+)', line)
+                    and port_scanitem):
+                value = format(match.group(1))
+                portinfo[portindex]['switchport access vlan'] = value
 
-                elif match(r'^vlan ([0-9,-]+)', line):
-                    port_scanitem = True
-                    value = format(match.group(1))
-                    for raw_vlans in value.split(','):
-                        if '-' in raw_vlans:
-                            for vlan_id in splitrange(raw_vlans):
-                                vlan_id = str(vlan_id)
-                                vlaninfo[vlan_id]['vlanindex'] = vlan_id
-                        else:
-                            vlaninfo[raw_vlans]['vlanindex'] = str(raw_vlans)
+            elif (match(r'^ switchport trunk allow vlan.* ([0-9,-]+)', line)
+                    and port_scanitem):
+                value = format(match.group(1))
+                for raw_vlans in value.split(','):
+                    if '-' in raw_vlans:
+                        for vlan_id in splitrange(raw_vlans):
+                            vlan_allow_list.append(vlan_id)
+                    else:
+                        vlan_allow_list.append(raw_vlans)
+                portinfo[portindex]['vlan_allow_list'] = vlan_allow_list
 
-                elif match(r' name (.*)', line) and port_scanitem:
-                    value = format(match.group(1))
-                    vlaninfo[vlanindex]['name'] = value
+            # start vlaninfo items
+            elif match(r'^vlan (\d)$', line):
+                vlanindex = format(match.group(1))
+                port_scanitem = True
+                vlaninfo[vlanindex]['vlanindex'] = vlanindex
 
-                # start snmpinfo items
-                elif match(r'snmp-server location (.*)', line):
-                    value = format(match.group(1))
-                    snmpinfo['location'] = value
+            elif match(r'^vlan ([0-9,-]+)', line):
+                port_scanitem = True
+                value = format(match.group(1))
+                for raw_vlans in value.split(','):
+                    if '-' in raw_vlans:
+                        for vlan_id in splitrange(raw_vlans):
+                            vlan_id = str(vlan_id)
+                            vlaninfo[vlan_id]['vlanindex'] = vlan_id
+                    else:
+                        vlaninfo[raw_vlans]['vlanindex'] = str(raw_vlans)
 
-                elif match(r'!', line) and port_scanitem:
-                    port_scanitem = False
+            elif match(r' name (.*)', line) and port_scanitem:
+                value = format(match.group(1))
+                vlaninfo[vlanindex]['name'] = value
+
+            # start snmpinfo items
+            elif match(r'snmp-server location (.*)', line):
+                value = format(match.group(1))
+                snmpinfo['location'] = value
+
+            elif match(r'!', line) and port_scanitem:
+                port_scanitem = False
 
         switchinfo[hostname]['portinfo'] = portinfo
         switchinfo[hostname]['vlaninfo'] = vlaninfo
